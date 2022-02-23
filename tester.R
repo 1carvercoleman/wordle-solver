@@ -65,7 +65,7 @@ for (i in 1:5) {
 }
 test_of_words <- words[sample(1:nrow(words), n),1]
 
-runner <- 0
+runner <- c()
 for (k in 1:length(test_of_words)) {
   counter <- 1
   words <- read.table("possible_words.txt")
@@ -88,8 +88,8 @@ for (k in 1:length(test_of_words)) {
     }
   }
   print(counter)
-  runner <- runner + counter
+  runner[k] <- counter
 }
 
-runner / n
+hist(runner)
 
