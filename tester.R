@@ -1,5 +1,5 @@
 # This function returns the result (black, green, or yellow for each letter) 
-# givenm a guess and an answer 
+# given a guess and an answer 
 get_result <- function(g, a) {
   r <- "bbbbb"
   for (i in 1:5) {
