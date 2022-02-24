@@ -75,9 +75,39 @@ while(TRUE) {
     break
   }
   words <- subset_data(first_guess, result, words)
-  entropy <- solver(words)
-  first_guess <- words[,1][entropy == min(entropy)]
-                        
+  
+  # I've already simulated the best second guess for some possibilities
+  # that take a long time (> 5 min) to estimate
+  
+  if (first_guess == "share" & result == "bbbbb") {
+    first_guess <- "unlit"
+  } else if (first_guess == "share" & result == "bybbb") {
+    first_guess <- "touch"
+  } else if (first_guess == "share" & result == "bbybb") {
+    first_guess <- "talon"
+  } else if (first_guess == "share" & result == "bbbyb") {
+    first_guess <- "droit"
+  } else if (first_guess == "share" & result == "bbbby") {
+    first_guess <- "olden"
+  } else if (first_guess == "share" & result == "gbbbb") {
+    first_guess <- "stink"
+  } else if (first_guess == "share" & result == "bbbbg") {
+    first_guess <- "guile"
+  } else if (first_guess == "share" & result == "bbbyy") {
+    first_guess <- "rider"
+  } else if (first_guess == "share" & result == "bbyyy") {
+    first_guess <- "alter"
+  } else if (first_guess == "share" & result == "bbyyb") {
+    first_guess <- "carol"
+  } else if (first_guess == "share" & result == "bbyby") {
+    first_guess <- "penal"
+  } else if (first_guess == "share" & result == "bbbyg") {
+    first_guess <- "trope"
+  } else {
+    entropy <- solver(words)
+    first_guess <- words[,1][entropy == min(entropy)]
+  }
+  
   print(paste("Guess",first_guess))
   if (nrow(words) == 1) {
     break

@@ -58,7 +58,7 @@ solver <- function(mydata) {
 }
 
 # Test a random sample of n answers
-n <- 3
+n <- 50
 words <- read.table("possible_words.txt")
 for (i in 1:5) {
   words[,i+1] <- substr(words[,1], i, i)
@@ -73,6 +73,7 @@ for (k in 1:length(test_of_words)) {
     words[,i+1] <- substr(words[,1], i, i)
   }
   first_guess <- "share"
+  print(test_of_words[k])
 
   while(TRUE) {
     result <- get_result(first_guess, test_of_words[k])
@@ -80,8 +81,38 @@ for (k in 1:length(test_of_words)) {
       break
     }
     words <- subset_data(first_guess, result, words)
-    entropy <- solver(words)
-    first_guess <- words[,1][which.min(entropy)]
+    
+    # I've already simulated the best second guess for some possibilities
+    # that take a long time (> 5 min) to estimate
+    
+    if (first_guess == "share" & result == "bbbbb") {
+      first_guess <- "unlit"
+    } else if (first_guess == "share" & result == "bybbb") {
+      first_guess <- "touch"
+    } else if (first_guess == "share" & result == "bbybb") {
+      first_guess <- "talon"
+    } else if (first_guess == "share" & result == "bbbyb") {
+      first_guess <- "droit"
+    } else if (first_guess == "share" & result == "bbbby") {
+      first_guess <- "olden"
+    } else if (first_guess == "share" & result == "gbbbb") {
+      first_guess <- "stink"
+    } else if (first_guess == "share" & result == "bbbbg") {
+      first_guess <- "guile"
+    } else if (first_guess == "share" & result == "bbbyy") {
+      first_guess <- "rider"
+    } else if (first_guess == "share" & result == "bbyyy") {
+      first_guess <- "alter"
+    } else if (first_guess == "share" & result == "bbyyb") {
+      first_guess <- "carol"
+    } else if (first_guess == "share" & result == "bbyby") {
+      first_guess <- "penal"
+    } else if (first_guess == "share" & result == "bbbyg") {
+      first_guess <- "trope"
+    } else {
+      entropy <- solver(words)
+      first_guess <- words[,1][which.min(entropy)]
+    }
     counter <- counter + 1
     if (first_guess == test_of_words[k]) {
       break
@@ -91,5 +122,4 @@ for (k in 1:length(test_of_words)) {
   runner[k] <- counter
 }
 
-hist(runner)
-
+barplot(table(runner))
